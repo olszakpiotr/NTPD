@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  ml_api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - ml_network
+
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    networks:
+      - ml_network
+
+networks:
+  ml_network:
+    driver: bridge
